@@ -10,8 +10,8 @@ object Main {
   def main(args: Array[String]): Unit = {
     val shows = cartoons
     val eps = shows.par.map(_.head).flatMap(episodes)
-    val iframes = eps.par.map(_.head).map(iframes)
-    println(iframes)
+    val ifrms = eps.par.map(_.head).flatMap(iframes)
+    println(ifrms)
   }
 
   def iframes(url: String) = {
