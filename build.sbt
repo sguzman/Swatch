@@ -29,6 +29,7 @@ resolvers ++= Seq(
 /** Source Dependencies */
 libraryDependencies ++= Seq(
   "org.scalaj" % "scalaj-http_2.12" % "2.3.0",
+  "net.ruippeixotog" % "scala-scraper_2.12" % "2.0.0",
   "org.feijoas" % "mango_2.12" % "0.14"
 )
 
