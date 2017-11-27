@@ -13,7 +13,7 @@ object Main {
     println(shows)
   }
 
-  def cartoons: List[(String, String)] = {
+  def cartoons = {
     val url = "https://www.watchcartoononline.io/cartoon-list"
     val request = Http(url)
 
@@ -21,7 +21,7 @@ object Main {
     val doc = browser.parseString(request.asString.body)
     val shows = doc >> elementList("#ddmcc_container > div > ul > ul > li > a")
 
-    val tuple = shows.map(e => (e.text, e.attr("href")))
+    val tuple = shows.map(e => List(e.text, e.attr("href")))
     tuple
   }
 }
