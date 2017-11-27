@@ -17,9 +17,12 @@ object Main {
   def iframes(url: String) = {
     val request = Http(url)
     val response = request.asString
+
     val doc = JsoupBrowser().parseString(response.body)
     val iframe = doc >> elementList("""iframe[id^=frame]""")
+
     val iframeSrc = iframe.head.attr("src")
+    println(iframeSrc)
     iframeSrc
   }
 
