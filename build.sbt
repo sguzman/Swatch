@@ -29,7 +29,7 @@ resolvers ++= Seq(
 /** Source Dependencies */
 libraryDependencies ++= Seq(
   "org.scalaj" % "scalaj-http_2.12" % "2.3.0",
-  "org.feijoas" % "mango_2.12" % "0.14",
+  "org.feijoas" % "mango_2.12" % "0.14"
 )
 
 /** Make sure to fork on run */
