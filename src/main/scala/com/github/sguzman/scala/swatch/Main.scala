@@ -9,7 +9,18 @@ import scalaj.http.Http
 object Main {
   def main(args: Array[String]): Unit = {
     val shows = cartoons
-    val eps = shows.par.map(_(1)).map(episodes)
+    val eps = shows.par.map(_.head).flatMap(episodes)
+    val iframes = eps.par.map(_.head).map(iframes)
+    println(iframes)
+  }
+
+  def iframes(url: String) = {
+    val request = Http(url)
+    val response = request.asString
+    val doc = JsoupBrowser().parseString(response.body)
+    val iframe = doc >> elementList("""iframe[id^=frame]""")
+    val iframeSrc = iframe.head.attr("src")
+    iframeSrc
   }
 
   def episodes(url: String) = {
