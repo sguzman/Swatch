@@ -1,7 +1,5 @@
 package com.github.sguzman.scala.swatch
 
-import java.io
-
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
@@ -20,11 +18,10 @@ object Main {
     val doc = JsoupBrowser().parseString(request.asString.body)
     val episodesElementList = doc >> elementList(selector)
     val eps = episodesElementList.map(e => List(e.text, e.attr("href")))
-    eps foreach (e => println(s"\tGot episode $e"))
     eps
   }
 
-  def cartoons: List[List[String]] = {
+  def cartoons = {
     val url = "https://www.watchcartoononline.io/cartoon-list"
     val request = Http(url)
 
@@ -33,7 +30,6 @@ object Main {
     val shows = doc >> elementList("#ddmcc_container > div > ul > ul > li > a")
 
     val show = shows.map(e => List(e.text, e.attr("href")))
-    print(s"Got show ${show.head}")
 
     show
   }
