@@ -21,7 +21,7 @@ object Main {
     val doc = browser.parseString(request.asString.body)
     val shows = doc >> elementList("#ddmcc_container > div > ul > ul > li > a")
 
-    val tuple = shows.map(e => List(e.text, e.attr("href")))
-    tuple
+    val show = shows.map(e => List(e.text, e.attr("href")))
+    show
   }
 }
