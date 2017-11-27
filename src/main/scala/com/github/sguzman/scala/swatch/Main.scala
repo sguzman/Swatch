@@ -15,9 +15,11 @@ object Main {
   def episodes(url: String) = {
     val selector = "#catlist-listview > ul > li > a"
     val request = Http(url)
+
     val doc = JsoupBrowser().parseString(request.asString.body)
     val episodesElementList = doc >> elementList(selector)
-    val eps = episodesElementList.map(e => List(e.text, e.attr("href")))
+
+    val eps = episodesElementList.map(e => List(e.attr("href"), e.text))
     eps
   }
 
@@ -29,8 +31,7 @@ object Main {
     val doc = browser.parseString(request.asString.body)
     val shows = doc >> elementList("#ddmcc_container > div > ul > ul > li > a")
 
-    val show = shows.map(e => List(e.text, e.attr("href")))
-
+    val show = shows.map(e => List(e.attr("href"), e.text))
     show
   }
 }
