@@ -1,5 +1,7 @@
 package com.github.sguzman.scala.swatch
 
+import java.io
+
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
@@ -9,21 +11,20 @@ import scalaj.http.Http
 object Main {
   def main(args: Array[String]): Unit = {
     val shows = cartoons
-
-    val episodes = shows.par.map(t => {
-      val selector = "#catlist-listview > ul > li > a"
-      val request = Http(t(1))
-      val doc = JsoupBrowser().parseString(request.asString.body)
-      val episodesElementList = doc >> elementList(selector)
-      val episodes = episodesElementList.map(e => List(e.text, e.attr("href")))
-      episodes foreach (e => println(s"\tGot episode $e"))
-      List(t, episodes)
-    })
-
-    println(episodes)
+    val eps = shows.par.map(_(1)).map(episodes)
   }
 
-  def cartoons = {
+  def episodes(url: String) = {
+    val selector = "#catlist-listview > ul > li > a"
+    val request = Http(url)
+    val doc = JsoupBrowser().parseString(request.asString.body)
+    val episodesElementList = doc >> elementList(selector)
+    val eps = episodesElementList.map(e => List(e.text, e.attr("href")))
+    eps foreach (e => println(s"\tGot episode $e"))
+    eps
+  }
+
+  def cartoons: List[List[String]] = {
     val url = "https://www.watchcartoononline.io/cartoon-list"
     val request = Http(url)
 
