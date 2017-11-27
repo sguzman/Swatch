@@ -13,7 +13,7 @@ object Main {
     println(shows)
   }
 
-  def cartoons = {
+  def cartoons: List[(String, String)] = {
     val url = "https://www.watchcartoononline.io/cartoon-list"
     val request = Http(url)
     val response = request.asString
