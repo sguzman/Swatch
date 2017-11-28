@@ -36,6 +36,7 @@ object Main {
       val pattern = """file.*""".r
       val allMatches = pattern.findAllMatchIn(script).toList.map(_.toString)
       val urls = allMatches.map(StringUtils.substringBetween(_, "\""))
+      urls
     }
   }
 
