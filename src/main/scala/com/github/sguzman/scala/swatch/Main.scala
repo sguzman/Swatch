@@ -40,15 +40,20 @@ object Main {
   }
 
   def iframes(url: String) = {
-    val request = Http(url)
-    val response = request.asString
+    try {
+      val request = Http(url)
+      val response = request.asString
 
-    val doc = JsoupBrowser().parseString(response.body)
-    val iframe = doc >> elementList("""iframe[id^=frame]""")
+      val doc = JsoupBrowser().parseString(response.body)
+      val iframe = doc >> elementList("""iframe[id^=frame]""")
 
-    val iframeSrcOpt = iframe.headOption
-    if (iframeSrcOpt.isDefined) Some(iframeSrcOpt.get.attr("src"))
-    else None
+      val iframeSrc = iframe.head
+      Some(iframeSrc.attr("src"))
+    } catch {
+      case e: Throwable =>
+        Console.err.println(e.getMessage)
+        None
+    }
   }
 
   def episodes(url: String) = {
