@@ -22,11 +22,17 @@ object Main {
     println(vids)
   }
 
-      val videoSrc = video.head.attr("src")
-      println(videoSrc)
-      videoSrc
-    })
-    println(urls)
+  def videos(url: String) = {
+    val request = Http(url)
+    val response = request.asString
+
+    val doc = JsoupBrowser().parseString(response.body)
+    val scriptTag = doc >> elementList("""script[type="text/javascript"]""")
+    if (scriptTag.isEmpty) None
+    else {
+      val lastScript = scriptTag.last
+
+    }
   }
 
   def iframes(url: String) = {
@@ -36,9 +42,8 @@ object Main {
     val doc = JsoupBrowser().parseString(response.body)
     val iframe = doc >> elementList("""iframe[id^=frame]""")
 
-    val iframeSrc = iframe.head.attr("src")
-    println(iframeSrc)
-    iframeSrc
+    val iframeSrcOpt = iframe.headOption
+    iframeSrcOpt
   }
 
   def episodes(url: String) = {
