@@ -10,14 +10,17 @@ object Main {
   def main(args: Array[String]): Unit = {
     val shows = cartoons
     val eps = shows.par.map(_.head).flatMap(episodes)
-    val ifrms = eps.par.map(_.head).map(iframes)
 
-    val urls = ifrms.par.map(url => {
-      val request = Http(url)
-      val response = request.asString
+    val ifrms = eps.par
+      .map(_.head)
+      .map(iframes)
+      .filter(_.isDefined)
+      .map(_.get)
+      .map(_.attr("src"))
 
-      val doc = JsoupBrowser().parseString(response.body)
-      val video = doc >> elementList("video")
+    val vids  = ifrms.map(videos)
+    println(vids)
+  }
 
       val videoSrc = video.head.attr("src")
       println(videoSrc)
