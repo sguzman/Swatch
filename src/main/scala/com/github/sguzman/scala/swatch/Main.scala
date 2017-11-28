@@ -10,7 +10,7 @@ import scalaj.http.Http
 object Main {
   def main(args: Array[String]): Unit = {
     val shows = cartoons
-    val eps = shows.par.map(_.head).flatMap(episodes)
+    val eps = shows.par.map(_.head).map(episodes).filter(_.isDefined).flatMap(_.get)
 
     val ifrms = eps.par
       .map(_.head)
