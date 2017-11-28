@@ -3,6 +3,7 @@ package com.github.sguzman.scala.swatch
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
+import org.apache.commons.lang3.StringUtils
 
 import scalaj.http.Http
 
@@ -31,7 +32,10 @@ object Main {
     if (scriptTag.isEmpty) None
     else {
       val lastScript = scriptTag.last
-
+      val script = lastScript.innerHtml
+      val pattern = """file.*""".r
+      val allMatches = pattern.findAllMatchIn(script).toList.map(_.toString)
+      val urls = allMatches.map(StringUtils.substringBetween(_, "\""))
     }
   }
 
