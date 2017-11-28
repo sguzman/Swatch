@@ -17,7 +17,6 @@ object Main {
       .map(iframes)
       .filter(_.isDefined)
       .map(_.get)
-      .map(_.attr("src"))
 
     val vids  = ifrms.map(videos)
     println(vids)
