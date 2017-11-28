@@ -52,14 +52,20 @@ object Main {
   }
 
   def episodes(url: String) = {
-    val selector = "#catlist-listview > ul > li > a"
-    val request = Http(url)
+    try {
+      val selector = "#catlist-listview > ul > li > a"
+      val request = Http(url)
 
-    val doc = JsoupBrowser().parseString(request.asString.body)
-    val episodesElementList = doc >> elementList(selector)
+      val doc = JsoupBrowser().parseString(request.asString.body)
+      val episodesElementList = doc >> elementList(selector)
 
-    val eps = episodesElementList.map(e => List(e.attr("href"), e.text))
-    eps
+      val eps = episodesElementList.map(e => List(e.attr("href"), e.text))
+      Some(eps)
+    } catch {
+      case e: Throwable =>
+        Console.err.println(e.getMessage)
+        None
+    }
   }
 
   def cartoons = {
