@@ -48,7 +48,8 @@ object Main {
     val iframe = doc >> elementList("""iframe[id^=frame]""")
 
     val iframeSrcOpt = iframe.headOption
-    iframeSrcOpt
+    if (iframeSrcOpt.isDefined) Some(iframeSrcOpt.get.attr("src"))
+    else None
   }
 
   def episodes(url: String) = {
